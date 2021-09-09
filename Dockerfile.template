@@ -1,0 +1,16 @@
+FROM balenalib/%%BALENA_MACHINE_NAME%%-alpine
+
+RUN install_packages autossh dumb-init
+
+ENV \
+    AUTOSSH_PIDFILE=/tmp/autossh.pid \
+    AUTOSSH_POLL=30 \
+    AUTOSSH_GATETIME=30 \
+    AUTOSSH_FIRST_POLL=30 \
+    AUTOSSH_LOGLEVEL=0 \
+    AUTOSSH_LOGFILE=/dev/stdout
+
+COPY ./rootfs/entrypoint.sh /entrypoint.sh
+COPY ./rootfs/version.sh    /version.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
